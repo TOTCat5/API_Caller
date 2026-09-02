@@ -4,12 +4,6 @@
 #include <heapapi.h>
 
 
-typedef struct StrView
-{
-    char *data;
-    size_t length;
-} StrView;
-
 
 void removeComments(char *str)
 {
@@ -113,15 +107,23 @@ typedef struct TokenListNode
 } TokenListNode;
 
 
+#define C_PONCTUATIONS\
+    x("")
+
 TokenListNode *lex(char *code)
 {
-    while(*code)
-    {
-        
-    }
+    TokenListNode *prev=NULL;
+    
+
 }
 
-StrView getHeaderLineOfProgram(char *buf,size_t bufSize,char *programName,size_t programNameSize)
+
+typedef struct HeaderFunction
+{
+
+} HeaderFunction;
+
+HeaderFunction getHeaderLineOfProgram(char *buf,size_t bufSize,char *programName,size_t programNameSize)
 {
     char *preprocessed=preprocess(strdup(buf));
 
@@ -136,8 +138,11 @@ void getNamesIdx(int argc,char *argv[],size_t *pLibraryNameIdx,size_t *pProcessN
     size_t headerFileNameIdx=-1;
 
     const char *libraryNameWarningList[]={
+        #if defined(WIN32) || defined(__WIN32__) || defined(WIN64) ||defined(__WIN64__)
         "-dll",
+        #else
         "-so",
+        #endif
         "-l",
         "-lib",
         "-library",
@@ -159,7 +164,7 @@ void getNamesIdx(int argc,char *argv[],size_t *pLibraryNameIdx,size_t *pProcessN
     };
     
     bool canTakeNewBehavior=true;
-    #define CHECK_WARNINGS(idx,list) \
+    #define CHECK_ARGUMENTS(idx,list) \
         for(size_t j=0;j<sizeof(list)/sizeof(list[0]);++j)\
         {\
             if(!strcmp(argv[i],list[j]))\
@@ -174,9 +179,9 @@ void getNamesIdx(int argc,char *argv[],size_t *pLibraryNameIdx,size_t *pProcessN
 
     for(size_t i=0;i<argc-1;++i)
     {
-        CHECK_WARNINGS(libraryNameIdx,libraryNameWarningList)
-        CHECK_WARNINGS(processNameIdx,processNameWarningList)
-        CHECK_WARNINGS(headerFileNameIdx,headerFileNameWarningList)
+        CHECK_ARGUMENTS(libraryNameIdx,libraryNameWarningList)
+        CHECK_ARGUMENTS(processNameIdx,processNameWarningList)
+        CHECK_ARGUMENTS(headerFileNameIdx,headerFileNameWarningList)
     }
     if(canTakeNewBehavior)
     {
@@ -192,7 +197,7 @@ void getNamesIdx(int argc,char *argv[],size_t *pLibraryNameIdx,size_t *pProcessN
 
     if(oldBehavior)
     {
-        printf("error while parsing the warnings. Taking old behavior.\n");
+        printf("error while parsing the arguments. Taking old behavior.\n");
         libraryNameIdx=1;
         processNameIdx=2;
     }
