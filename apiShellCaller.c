@@ -90,7 +90,8 @@ typedef enum TokenEnum
     TokenEnumUnidentified,
     TokenEnumId,
     TokenEnumConstant,
-    TokenEnumPonctuation,
+    TokenEnumKeyword,
+    TokenEnumOperator,
     TokenEnumSpace
 
 } TokenEnum;
@@ -107,28 +108,26 @@ typedef struct TokenListNode
 } TokenListNode;
 
 
-#define C_PONCTUATIONS\
-    x("")
+#define C_KEYWORDS\
+    x(EQUAL,==)\
 
 TokenListNode *lex(char *code)
 {
     TokenListNode *prev=NULL;
     
-
+    
 }
 
 
-typedef struct HeaderFunction
-{
-
-} HeaderFunction;
-
-HeaderFunction getHeaderLineOfProgram(char *buf,size_t bufSize,char *programName,size_t programNameSize)
-{
-    char *preprocessed=preprocess(strdup(buf));
+// HeaderFunction getHeaderLineOfProgram(char *buf,size_t bufSize,char *programName,size_t programNameSize)
+// {
+//     char *preprocessed=preprocess(strdup(buf));
 
 
-}
+// }
+
+
+
 
 void getNamesIdx(int argc,char *argv[],size_t *pLibraryNameIdx,size_t *pProcessNameIdx,size_t *pHeaderFileNameIdx,bool *pOldBehavior)
 {
